@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -24,11 +25,11 @@ public class Ex4dot1 extends Application {
 	public int determineAuth(TextField userTextField, PasswordField pxBox){
 		String[] Users = {"User1","User2","User3"};
 		String[] Passes = {"Pass1","Pass2","Pass3"};
-		if (userTextField.equals(Users[0]) && pxBox.equals(Passes[0])){
+		if (userTextField.getText().equals(Users[0]) && pxBox.getText().equals(Passes[0])){
 			return 3;
-		}else if (userTextField.equals(Users[1]) && pxBox.equals(Passes[1])){
+		}else if (userTextField.getText().equals(Users[1]) && pxBox.getText().equals(Passes[1])){
 			return 2;
-		}else if (userTextField.equals(Users[2]) && pxBox.equals(Passes[2])){
+		}else if (userTextField.getText().equals(Users[2]) && pxBox.getText().equals(Passes[2])){
 			return 1;
 		}else{
 			return 0;
@@ -86,7 +87,6 @@ public class Ex4dot1 extends Application {
 					break;
 					case 0: access = false;
 					tries++;
-					System.out.print("AAAAAA");
 					break;
 					default: access = false;
 					tries++;
@@ -94,7 +94,6 @@ public class Ex4dot1 extends Application {
 					}
 					if (access == false){
 						JOptionPane.showMessageDialog(null,"Incorrect","Title", tries);
-						System.out.print("AAA");
 					}else{
 						String i1 = "";
 						String[] AccountTypes = {"","Student","Staff","Admin"};
