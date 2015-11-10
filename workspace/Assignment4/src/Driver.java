@@ -1,3 +1,15 @@
+/* Asks user for input on the specifics of their account, checking and verifying that the inputs are valid.
+ * 
+ * @param Username
+ * @param Password made up of 8 or more characters
+ * @param Email from gmail.com
+ * @param First Name
+ * @param Last Name
+ * @param Account Type
+ * @return A toString method describing the user.
+ * 
+ */
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,6 +36,7 @@ import javafx.geometry.Pos;
 
 public class Driver extends Application {
 	Boolean cont = false;
+	Boolean cont2 = false;
 	public void start(Stage primarystage){
 		primarystage.setTitle("Javafx  Window");
 		primarystage.show();
@@ -34,7 +47,7 @@ public class Driver extends Application {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25,25,25,25));
 		
-		Scene scene = new Scene(grid,400,375);
+		Scene scene = new Scene(grid,400,400);
 		primarystage.setScene(scene);
 		
 		Text scenetitle = new Text("Welcome");
@@ -68,7 +81,7 @@ public class Driver extends Application {
 		Label accounttype = new Label("Account Type:");
 		grid.add(accounttype, 0, 7);
 		ObservableList<AuthLevel> options = FXCollections.observableArrayList(AuthLevel.Administrator, AuthLevel.Staff, AuthLevel.Faculty, AuthLevel.Student, AuthLevel.Guest);
-		ComboBox combobox = new ComboBox(options);
+		ComboBox<AuthLevel> combobox = new ComboBox<AuthLevel>(options);
 		grid.add(combobox, 1, 7);
 		Label hiddenerror = new Label("One or more of the inputs are empty.");
 		grid.add(hiddenerror, 1, 9);
@@ -86,24 +99,66 @@ public class Driver extends Application {
 		confirm.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				User user1 = new User(userTextField.getText(),firstTextField.getText(),lastTextField.getText(),pwBox.getText(),emailTextField.getText());
-				user1.setAuth(combobox.getValue().toString());
-				if (user1.getPword().equals(pwConfirmbox.getText())){
-					cont = true;
+				hiddenerror.setVisible(false);
+				userTextField.setStyle("-fx-text-box-border: black");
+				if (combobox.getValue().toString().equals(null)){
+					user1.setAuth("Guest");
 				}else{
-					cont = false;
-					hiddenerror.setText("Your passwords do not match.");
-					hiddenerror.setVisible(true);
+					user1.setAuth(combobox.getValue().toString());
 				}
-				if (user1.getUserName().equals(null) || user1.getFirstName().equals(null) || user1.getEmail().equals(null) || user1.getLastName().equals(null) || user1.getAuth().equals(null) || user1.getPword().equals(null)){
-					cont = false;
-					hiddenerror.setText("One or more of the inputs are empty.");
-					hiddenerror.setVisible(true);
-				}else{
-					cont = true;
-				}
-				if (cont = true){
-					JOptionPane.showMessageDialog(null, user1.toString());
-				}
+				String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,64}";
+					if (user1.getPword().equals(pwConfirmbox.getText()) && user1.getPword().length() >= 8 && user1.getPword().matches(pattern)){
+						cont2 = true;
+					if (user1.getUserName().equals("") || user1.getFirstName().equals("") || user1.getEmail().equals("") || user1.getLastName().equals("") || user1.getAuth().equals("") || user1.getPword().equals("")){
+						cont = false;
+						hiddenerror.setText("One or more of the inputs are empty, or your email is not verified.");
+						if (user1.getUserName().equals("")){
+							userTextField.setStyle("-fx-text-box-border: red");
+						}else{
+							userTextField.setStyle("-fx-text-box-border: black");
+						}
+						if (user1.getPword().equals("")){
+							pwBox.setStyle("-fx-text-box-border: red");
+						}else{
+							pwBox.setStyle("-fx-text-box-border: black");
+						}
+						if (user1.getFirstName().equals("")){
+							firstTextField.setStyle("-fx-text-box-border: red");
+						}else{
+							firstTextField.setStyle("-fx-text-box-border: black");
+						}
+						if (user1.getEmail().equals("") || !user1.getEmail().contains("@gmail.com")){
+							emailTextField.setStyle("-fx-text-box-border: red");
+						}else{
+							emailTextField.setStyle("-fx-text-box-border: black");
+						}
+						if (user1.getLastName().equals("")){
+							lastTextField.setStyle("-fx-text-box-border: red");
+						}else{
+							lastTextField.setStyle("-fx-text-box-border: black");
+						}
+						if (pwConfirmbox.getText().equals("")){
+							pwConfirmbox.setStyle("-fx-text-box-border: red");
+						}else{
+							pwConfirmbox.setStyle("-fx-text-box-border: black");
+						}
+						
+						hiddenerror.setVisible(true);
+					}else{
+						cont = true;
+					}
+					}else{
+						cont2 = false;
+						hiddenerror.setText("Your passwords do not match or your password is not long enough.");
+						hiddenerror.setVisible(true);
+					}
+				
+					if (cont == true && cont2 == true){
+						JOptionPane.showMessageDialog(null, user1.toString());
+						System.out.print("EVERYTHING IS OK");
+					}else{
+						System.out.println("SOMETHING IS WRONG");
+					}
 			}
 		});
 	}
