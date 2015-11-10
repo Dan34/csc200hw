@@ -47,7 +47,7 @@ public class Driver extends Application {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25,25,25,25));
 		
-		Scene scene = new Scene(grid,400,400);
+		Scene scene = new Scene(grid,1100,400);
 		primarystage.setScene(scene);
 		
 		Text scenetitle = new Text("Welcome");
@@ -149,7 +149,7 @@ public class Driver extends Application {
 					}
 					}else{
 						cont2 = false;
-						hiddenerror.setText("Your passwords do not match or your password is not long enough.");
+						hiddenerror.setText("Your passwords do not match or your password needs to include at least 8 characters, one or more of which must be a number, letter, or nonalphanumeric.");
 						hiddenerror.setVisible(true);
 					}
 				
