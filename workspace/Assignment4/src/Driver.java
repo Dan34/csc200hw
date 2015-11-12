@@ -37,6 +37,7 @@ import javafx.geometry.Pos;
 public class Driver extends Application {
 	Boolean cont = false;
 	Boolean cont2 = false;
+	Boolean cont3 = false;
 	public void start(Stage primarystage){
 		primarystage.setTitle("Javafx  Window");
 		primarystage.show();
@@ -106,12 +107,16 @@ public class Driver extends Application {
 				}else{
 					user1.setAuth(combobox.getValue().toString());
 				}
-				String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,64}";
-					if (user1.getPword().equals(pwConfirmbox.getText()) && user1.getPword().length() >= 8 && user1.getPword().matches(pattern)){
-						cont2 = true;
+//				String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,64}";
+
 					if (user1.getUserName().equals("") || user1.getFirstName().equals("") || user1.getEmail().equals("") || user1.getLastName().equals("") || user1.getAuth().equals("") || user1.getPword().equals("")){
 						cont = false;
 						hiddenerror.setText("One or more of the inputs are empty, or your email is not verified.");
+						hiddenerror.setVisible(true);
+					}else{
+						cont = true;
+					}
+
 						if (user1.getUserName().equals("")){
 							userTextField.setStyle("-fx-text-box-border: red");
 						}else{
@@ -129,8 +134,12 @@ public class Driver extends Application {
 						}
 						if (user1.getEmail().equals("") || !user1.getEmail().contains("@gmail.com")){
 							emailTextField.setStyle("-fx-text-box-border: red");
+							hiddenerror.setVisible(true);
+							cont3 = false;
 						}else{
 							emailTextField.setStyle("-fx-text-box-border: black");
+							hiddenerror.setVisible(false);
+							cont3 = true;
 						}
 						if (user1.getLastName().equals("")){
 							lastTextField.setStyle("-fx-text-box-border: red");
@@ -143,17 +152,16 @@ public class Driver extends Application {
 							pwConfirmbox.setStyle("-fx-text-box-border: black");
 						}
 						
-						hiddenerror.setVisible(true);
-					}else{
-						cont = true;
-					}
+					if (user1.getPword().equals(pwConfirmbox.getText()) && user1.getPword().length() >= 8){
+						cont2 = true;
+						hiddenerror.setVisible(false);
 					}else{
 						cont2 = false;
 						hiddenerror.setText("Your passwords do not match or your password needs to include at least 8 characters, one or more of which must be a number, letter, or nonalphanumeric.");
 						hiddenerror.setVisible(true);
 					}
 				
-					if (cont == true && cont2 == true){
+					if (cont == true && cont2 == true && cont3 == true){
 						JOptionPane.showMessageDialog(null, user1.toString());
 						System.out.print("EVERYTHING IS OK");
 					}else{
