@@ -25,25 +25,25 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 public class Driver extends Application {
-	String grade = "";
-	public double weight(String worth, String score){
+	String grade = ""; //the final output of the program
+	public double weight(String worth, String score){ //the inputs are strings so that the inputs are shorter; the strings are converted in the method
 		double w = Double.parseDouble(worth);
 		double s = Double.parseDouble(score);
 		double g = w*s;
-		return g;
+		return g; //returns the weighted grade
 	}
-	public String letterg(double a){
+	public String letterg(double a){ //returns the letter grade
 		String letter = "F";
-		double e = a;
+		double e = a; //the e is totally essential
 		if (e<64){
 			letter = "F";
 		}else if(e>=64 && e<70){
 			letter = "D";
-		}else if(e>=70 && e<79){
+		}else if(e>=70 && e<80){
 			letter = "C";
-		}else if(e>=79 && e<89){
+		}else if(e>=80 && e<90){
 			letter = "B";
-		}else if(e>=89){
+		}else if(e>=90){
 			letter = "A";
 		}
 		return letter;
@@ -123,11 +123,11 @@ public class Driver extends Application {
 		grid.add(hbBtn,3,5);
 		
 		confirm.setOnAction(new EventHandler<ActionEvent>(){
-			public void handle(ActionEvent event){
+			public void handle(ActionEvent event){ //inputting the grades into the Student class
 				stu.setScores(weight(w1TF.getText(),score1TF.getText()),weight(w2TF.getText(),score2TF.getText()),weight(w3TF.getText(),score3TF.getText()),weight(w4TF.getText(),score4TF.getText()));
 				stu.setGPA(stu.getScore1()+stu.getScore2()+stu.getScore3()+stu.getScore4());
 				stu.setName(namTF.getText());
-				grade = letterg(stu.getGPA());
+				grade = letterg(stu.getGPA()); //getting the letter grade
 				finG.setText(stu.getName() + " has a(n) "+grade+".");
 			}
 		});
